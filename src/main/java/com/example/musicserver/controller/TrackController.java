@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tracks")
-@CrossOrigin(origins = "*") // щоб клієнт з іншого origin міг звертатися
+@CrossOrigin(origins = "*")
 public class TrackController {
 
     private final TrackService trackService;

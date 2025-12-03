@@ -2,13 +2,12 @@ package com.example.musicserver.controller;
 
 import com.example.musicserver.entity.PlaylistEntity;
 import com.example.musicserver.service.PlaylistService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/playlists") // ← ВАЖЛИВО
+@RequestMapping("/api/playlists")
 public class PlaylistController {
 
     private final PlaylistService playlistService;
