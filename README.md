@@ -136,3 +136,12 @@ MusicPlayer/
   * Spring Data JPA / Hibernate
   * MySQL 8
   * Maven
+
+-----
+
+## 🖥️ Скріншоти
+<img width="900" height="626" alt="image" src="https://github.com/user-attachments/assets/5d6ad534-2265-4326-869c-d81ee3554636" />
+
+<img width="902" height="627" alt="image" src="https://github.com/user-attachments/assets/33253f77-80b5-4362-a4c9-9b82ea15b1ad" />
+
+
