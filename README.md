@@ -69,7 +69,7 @@ CREATE DATABASE music_player_db
 
 > **Примітка:** За замовчуванням сервер використовує `username = root` та `password = (ваш пароль root при встановленні MySQL)`.
 
-> ОБОВ'ЯЗКОВО ЗМІНИТИ username та password *під ваші у application.properties серверної частини (src/resources)*
+> ОБОВ'ЯЗКОВО ЗМІНИТИ username та password *під ваші у application.properties серверної частини (src/main/resources)*
 
 ### 3️⃣ Запуск сервера (Spring Boot)
 
