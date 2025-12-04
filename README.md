@@ -7,7 +7,7 @@
 
 ## Посилання на вже готові скомпільовані jar-файли (client & server):
 
-> MusicPlayer.jar можна розархівувати будь-де. Зокрема jar-файл music-player-server-1.0.0 сервера потрібно розархівувати в кореневу папку сервера (music-player-server\target) якщо ви хочете запускати сервер за допомогою bat-файла.
+> MusicPlayer.jar можна розархівувати будь-де. Зокрема jar-файл music-player-server-1.0.0 сервера потрібно вставити за шляхом *\target, щоб bat-файл міг працювати.
 
 [Посилання](https://dropmefiles.com.ua/ua/SZDV4YUB)
 
