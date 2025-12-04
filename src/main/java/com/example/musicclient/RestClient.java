@@ -84,7 +84,6 @@ public class RestClient {
                     httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 200 || response.statusCode() == 201) {
-                // Оновлюємо плейлист та треки з відповіді сервера (включаючи id)
                 Playlist updated = objectMapper.readValue(response.body(), Playlist.class);
 
                 playlist.setId(updated.getId());

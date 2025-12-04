@@ -77,7 +77,6 @@ public class AudioPlayerFacade {
         if (currentPlayer != null) {
             var status = currentPlayer.getStatus();
             if (status == MediaPlayer.Status.PLAYING) {
-                // якщо грає — ставимо на паузу
                 currentPlayer.pause();
             } else if (status == MediaPlayer.Status.PAUSED) {
                 currentPlayer.play();

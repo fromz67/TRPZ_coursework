@@ -12,8 +12,6 @@ public class Playlist {
     private String name;
     private final List<Track> tracks = new ArrayList<>();
 
-    public Playlist() {
-    }
 
     public Playlist(Long id, String name) {
         this.id = id;
