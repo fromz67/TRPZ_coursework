@@ -29,7 +29,6 @@ public class PlaylistService {
         PlaylistEntity playlist = playlistRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Playlist not found: " + id));
 
-        // очищаємо зв'язки, щоб видалити join rows
         playlist.getTracks().clear();
 
         playlistRepository.delete(playlist);
