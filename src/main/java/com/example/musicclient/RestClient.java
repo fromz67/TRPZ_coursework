@@ -13,7 +13,9 @@ import java.util.List;
 public class RestClient {
 
     private final String baseUrl;
+
     private final HttpClient httpClient;
+
     private final ObjectMapper objectMapper;
 
     public RestClient(String baseUrl) {
@@ -86,6 +88,7 @@ public class RestClient {
             if (response.statusCode() == 200 || response.statusCode() == 201) {
                 Playlist updated = objectMapper.readValue(response.body(), Playlist.class);
 
+                // Оновлення даних у локальному плейлисті
                 playlist.setId(updated.getId());
                 playlist.setName(updated.getName());
 
@@ -119,6 +122,5 @@ public class RestClient {
             System.err.println("Error deleting playlist: " + e.getMessage());
         }
     }
-
 
 }

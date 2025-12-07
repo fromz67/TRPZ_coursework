@@ -7,18 +7,35 @@ import java.io.File;
 import java.util.Random;
 import javafx.util.Duration;
 
-
+/**
+ * Фасад для роботи з аудіовідтворенням на основі JavaFX MediaPlayer.
+ * Інкапсулює:
+ *     створення та керування MediaPlayer для поточного треку;
+ *     керування гучністю;
+ *     режими Shuffle та Repeat;
+ *     перемикання треків у межах плейліста (next/previous).
+ * Використовується з боку UI як спрощений інтерфейс до аудіодвигуна.
+ */
 public class AudioPlayerFacade {
 
     private MediaPlayer currentPlayer;
+
     private Track currentTrack;
+
     private boolean shuffle = false;
+
     private boolean repeat = true;
 
     private double volume = 1.0;
 
     private final Random random = new Random();
 
+    /**
+     * Почати відтворення вказаного треку.
+     * <p>
+     * Якщо вже є активний MediaPlayer, він зупиняється
+     * і створюється новий плеєр для переданого треку.
+     */
     public void play(Track track) {
         try {
             if (track == null) return;
@@ -38,10 +55,16 @@ public class AudioPlayerFacade {
         }
     }
 
+    /**
+     * Повертає поточний MediaPlayer якщо він існує
+     */
     public MediaPlayer getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Повертає поточний час відтворення треку.
+     */
     public Duration getCurrentTime() {
         if (currentPlayer != null) {
             return currentPlayer.getCurrentTime();
@@ -49,6 +72,9 @@ public class AudioPlayerFacade {
         return Duration.ZERO;
     }
 
+    /**
+     * Повертає загальну тривалість поточного треку
+     */
     public Duration getTotalDuration() {
         if (currentPlayer != null) {
             return currentPlayer.getTotalDuration();
@@ -56,12 +82,20 @@ public class AudioPlayerFacade {
         return Duration.ZERO;
     }
 
+    /**
+     * Переміщує позицію відтворення до вказаного моменту
+     */
     public void seek(Duration position) {
         if (currentPlayer != null && position != null) {
             currentPlayer.seek(position);
         }
     }
 
+    /**
+     * Встановлює гучність відтворення.
+     *
+     * значення гучності в діапазоні від 0.0 до 1.0
+     */
     public void setVolume(double volume) {
         this.volume = volume;
         if (currentPlayer != null) {
@@ -69,10 +103,19 @@ public class AudioPlayerFacade {
         }
     }
 
+    /**
+     * Повертає поточне значення гучності.
+     */
     public double getVolume() {
         return volume;
     }
 
+    /**
+     * Перемикає стан відтворення між "відтворення" та "пауза".
+     *     Якщо трек зараз грає – ставиться на паузу.
+     *     Якщо трек на паузі – відновлюється відтворення.
+     * Якщо плеєр не ініціалізований – метод нічого не робить.
+     */
     public void pause() {
         if (currentPlayer != null) {
             var status = currentPlayer.getStatus();
@@ -84,39 +127,69 @@ public class AudioPlayerFacade {
         }
     }
 
-
+    /**
+     * Явне відновлення відтворення поточного треку
+     * (без перемикання режиму, на відміну від pause).
+     */
     public void resume() {
         if (currentPlayer != null) {
             currentPlayer.play();
         }
     }
 
+    /**
+     * Зупиняє відтворення поточного треку.
+     * Позиція відтворення скидається на початок.
+     */
     public void stop() {
         if (currentPlayer != null) {
             currentPlayer.stop();
         }
     }
 
+    /**
+     * Вмикає або вимикає режим випадкового відтворення (Shuffle).
+     *
+     * вимкнути\увімкнути Shuffle,
+     */
     public void setShuffle(boolean shuffle) {
         this.shuffle = shuffle;
     }
 
+    /**
+     * Повертає поточний стан режиму Shuffle.
+     */
     public boolean isShuffle() {
         return shuffle;
     }
 
+    /**
+     * Вмикає або вимикає режим повтору поточного треку (Repeat).
+     */
     public void setRepeat(boolean repeat) {
         this.repeat = repeat;
     }
 
+    /**
+     * Повертає поточний стан режиму Repeat.
+     */
     public boolean isRepeat() {
         return repeat;
     }
 
+    /**
+     * Повертає поточний трек, який відтворюється або останнім відтворювався.
+     */
     public Track getCurrentTrack() {
         return currentTrack;
     }
 
+    /**
+     * Перемикається на наступний трек у вказаному плейлісті.
+     *     Якщо ввімкнено Shuffle – обирається випадковий трек, відмінний від поточного.
+     *     Якщо Shuffle вимкнено – використовується ітератор плейліста.
+     *     При досягненні кінця списку відбувається перехід на перший трек.
+     */
     public Track next(Playlist playlist) {
         if (playlist == null || playlist.getTracks().isEmpty()) {
             return null;
@@ -168,8 +241,12 @@ public class AudioPlayerFacade {
         return nextTrack;
     }
 
-
-
+    /**
+     * Перемикається на попередній трек у вказаному плейлісті.
+     *     Якщо ввімкнено Shuffle – обирається випадковий трек, відмінний від поточного.
+     *     Якщо Shuffle вимкнено – використовується двобічний ітератор плейліста.
+     *     При переході назад з першого елемента – перехід на останній трек.
+     */
     public Track previous(Playlist playlist) {
         if (playlist == null || playlist.getTracks().isEmpty()) {
             return null;
@@ -223,6 +300,4 @@ public class AudioPlayerFacade {
             return last;
         }
     }
-
-
 }

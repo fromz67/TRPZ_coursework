@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaylistManager {
+
     private final List<Playlist> playlists = new ArrayList<>();
+
     private Playlist currentPlaylist;
 
     public Playlist createPlaylist(String name) {

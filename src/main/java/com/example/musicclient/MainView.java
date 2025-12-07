@@ -14,37 +14,60 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.media.MediaPlayer;
 
+/**
+ * Клас відповідає за головний інтерфейс музичного плеєра.
+ * Тут створюється розмітка вікна, кнопки, списки плейлистів і треків,
+ * а також налаштовується їхня взаємодія між собою.
+ */
 public class MainView {
 
     private final BorderPane root;
 
     private final ListView<Track> trackListView;
+
     private final ListView<Playlist> playlistListView;
 
     private final Button playButton;
+
     private final Button pauseButton;
+
     private final Button nextButton;
+
     private final Button prevButton;
+
     private final Button importButton;
 
     private final Slider positionSlider;
+
     private final RestClient restClient;
+
     private final AudioPlayerFacade audioPlayer;
+
     private final MusicLibrary musicLibrary;
+
     private final PlaylistManager playlistManager;
+
     private final Button savePlaylistButton;
 
     private final Slider volumeSlider;
+
     private final ToggleButton shuffleButton;
+
     private final ToggleButton repeatButton;
 
     private final Button deletePlaylistButton;
+
     private final Button deleteTrackButton;
+
     private final Button addPlaylistButton;
 
     private final TextField searchField;
 
 
+    /**
+     * Конструктор створює всі елементи інтерфейсу,
+     * налаштовує їхній вигляд, дії та завантажує початкові дані з сервера.
+     */
     public MainView() {
         this.root = new BorderPane();
 
@@ -56,44 +79,50 @@ public class MainView {
         this.trackListView = new ListView<>();
         this.playlistListView = new ListView<>();
 
-        this.playButton = new Button("Play");
-        this.pauseButton = new Button("Pause");
-        this.nextButton = new Button("Next");
-        this.prevButton = new Button("Prev");
-        this.importButton = new Button("Import tracks");
-        this.savePlaylistButton = new Button("Save playlist");
+        this.playButton = new Button("Відтворити");
+        this.pauseButton = new Button("Пауза");
+        this.nextButton = new Button("Наступний");
+        this.prevButton = new Button("Попередній");
+        this.importButton = new Button("Імпорт...");
+        this.savePlaylistButton = new Button("Зберегти зміни");
 
         this.volumeSlider = new Slider(0, 1, 1);
-        this.shuffleButton = new ToggleButton("Shuffle");
-        this.repeatButton = new ToggleButton("Repeat");
+        this.shuffleButton = new ToggleButton("Перемішування");
+        this.repeatButton = new ToggleButton("Повтор");
 
-        this.deletePlaylistButton = new Button("Delete playlist");
-        this.deleteTrackButton = new Button("Delete track");
-        this.addPlaylistButton = new Button("Add playlist");
+        this.deletePlaylistButton = new Button("Видалити плейліст");
+        this.deleteTrackButton = new Button("Видалити трек");
+        this.addPlaylistButton = new Button("Додати плейліст");
 
         this.positionSlider = new Slider(0, 100, 0);
 
         this.searchField = new TextField();
-        this.searchField.setPromptText("Search tracks...");
-
+        this.searchField.setPromptText("Шукати...");
 
         setupLayout();
         setupActions();
         loadDataFromServer();
     }
 
+    /**
+     * Повертає кореневий елемент інтерфейсу, який використовується у сцені.
+     */
     public BorderPane getRoot() {
         return root;
     }
 
+    /**
+     * Налаштовує зовнішній вигляд вікна:
+     * розташування списку плейлистів, треків, кнопок та слайдерів.
+     */
     private void setupLayout() {
         SplitPane centerPane = new SplitPane();
         centerPane.setOrientation(Orientation.HORIZONTAL);
 
         playlistListView.setPrefWidth(200);
-        playlistListView.setPlaceholder(new Label("No playlists"));
+        playlistListView.setPlaceholder(new Label("Нічого немає..."));
 
-        trackListView.setPlaceholder(new Label("No tracks"));
+        trackListView.setPlaceholder(new Label("Нічого немає..."));
 
         VBox tracksBox = new VBox(5, searchField, trackListView);
         tracksBox.setPadding(new Insets(0, 0, 0, 5));
@@ -105,7 +134,7 @@ public class MainView {
                 prevButton, playButton, pauseButton, nextButton,
                 importButton, savePlaylistButton,
                 addPlaylistButton, deleteTrackButton, deletePlaylistButton,
-                new Label("Volume:"), volumeSlider,
+                new Label("Гучність:"), volumeSlider,
                 shuffleButton, repeatButton
         );
         controls.setPadding(new Insets(10));
@@ -116,9 +145,12 @@ public class MainView {
         root.setCenter(centerPane);
         root.setBottom(bottomBox);
         root.setPadding(new Insets(10));
-
     }
 
+    /**
+     * Налаштовує обробники подій для кнопок, слайдерів та списків.
+     * Тут описано, що має відбуватися при кліках, зміні значень та виборі елементів.
+     */
     private void setupActions() {
         playButton.setOnAction(e -> {
             Track selected = trackListView.getSelectionModel().getSelectedItem();
@@ -177,7 +209,6 @@ public class MainView {
             }
         });
 
-
         volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             audioPlayer.setVolume(newVal.doubleValue());
         });
@@ -226,9 +257,9 @@ public class MainView {
 
         addPlaylistButton.setOnAction(e -> {
             TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("New playlist");
-            dialog.setHeaderText("Create new playlist");
-            dialog.setContentText("Playlist name:");
+            dialog.setTitle("Новий плейліст");
+            dialog.setHeaderText("Створити новий плейліст");
+            dialog.setContentText("Назва:");
 
             dialog.showAndWait().ifPresent(name -> {
                 String trimmed = name.trim();
@@ -240,7 +271,7 @@ public class MainView {
                         .anyMatch(p -> trimmed.equalsIgnoreCase(p.getName()));
 
                 if (exists) {
-                    System.err.println("Playlist with this name already exists");
+                    System.err.println("Плейліст з таким іменем вже існує.");
                     return;
                 }
 
@@ -256,11 +287,15 @@ public class MainView {
         });
     }
 
+    /**
+     * Відкриває діалог вибору аудіофайлів,
+     * створює для них треки та додає їх у бібліотеку і поточний плейлист.
+     */
     private void importTracks() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select audio files");
+        fileChooser.setTitle("Оберіть аудіофайли.");
         fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Audio files", "*.mp3", "*.wav", "*.aac")
+                new FileChooser.ExtensionFilter("Аудіо", "*.mp3", "*.wav", "*.aac")
         );
         var files = fileChooser.showOpenMultipleDialog(root.getScene().getWindow());
         if (files != null) {
@@ -268,8 +303,8 @@ public class MainView {
                 Track track = new Track(
                         null,
                         file.getName(),
-                        "Unknown artist",
-                        "Unknown album",
+                        "Невідомий артист",
+                        "Невідомий альбом",
                         file.getAbsolutePath()
                 );
                 musicLibrary.addTrack(track);
@@ -283,6 +318,10 @@ public class MainView {
         }
     }
 
+    /**
+     * Завантажує треки і плейлисти з сервера,
+     * додає їх у локальні структури та оновлює відображення в інтерфейсі.
+     */
     private void loadDataFromServer() {
         var tracksFromServer = restClient.loadTracks();
         for (Track t : tracksFromServer) {
@@ -300,6 +339,11 @@ public class MainView {
         }
     }
 
+    /**
+     * Налаштовує слайдер позиції під поточний трек:
+     * встановлює максимальну тривалість, оновлює значення під час відтворення
+     * та реагує на завершення треку (repeat або перехід до наступного).
+     */
     private void configurePositionSliderForCurrentTrack() {
         MediaPlayer player = audioPlayer.getCurrentPlayer();
         if (player == null) {
@@ -339,7 +383,10 @@ public class MainView {
         });
     }
 
-
+    /**
+     * Фільтрує треки у поточному плейлисті за введеним текстом.
+     * Пошук відбувається по назві треку та імені виконавця.
+     */
     private void applyTrackFilter(String query) {
         String trimmed = query == null ? "" : query.trim().toLowerCase();
 

@@ -5,11 +5,17 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
+/**
+ * Клас описує плейлист. Зберігає його назву, ідентифікатор
+ * та список треків, які в ньому знаходяться.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Playlist {
+
     private Long id;
+
     private String name;
+
     private final List<Track> tracks = new ArrayList<>();
 
 
@@ -43,7 +49,6 @@ public class Playlist {
     }
 
     public void addTrack(Track track) {
-        // не додаємо трек, якщо вже є з таким самим шляхом до файлу
         boolean exists = tracks.stream()
                 .anyMatch(t -> t.getFilePath() != null
                         && t.getFilePath().equals(track.getFilePath()));
@@ -57,7 +62,6 @@ public class Playlist {
     public TrackIterator getIterator() {
         return new PlaylistTrackIterator(tracks);
     }
-
 
     public void removeTrack(Track track) {
         tracks.remove(track);
