@@ -48,13 +48,4 @@ public class PlaylistTrackIterator implements TrackIterator {
         currentIndex--;
         return tracks.get(currentIndex);
     }
-
-    // Повертає поточний трек або null, якщо індекс неправильний
-    @Override
-    public Track current() {
-        if (currentIndex < 0 || currentIndex >= tracks.size()) {
-            return null;
-        }
-        return tracks.get(currentIndex);
-    }
 }

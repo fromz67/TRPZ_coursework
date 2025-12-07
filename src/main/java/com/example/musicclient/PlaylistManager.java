@@ -9,15 +9,6 @@ public class PlaylistManager {
 
     private Playlist currentPlaylist;
 
-    public Playlist createPlaylist(String name) {
-        Playlist playlist = new Playlist(name);
-        playlists.add(playlist);
-        if (currentPlaylist == null) {
-            currentPlaylist = playlist;
-        }
-        return playlist;
-    }
-
     public List<Playlist> getPlaylists() {
         return playlists;
     }

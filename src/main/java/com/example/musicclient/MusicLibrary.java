@@ -27,11 +27,4 @@ public class MusicLibrary {
             tracks.add(track);
         }
     }
-
-    /**
-     * Повертає список усіх треків, які є в бібліотеці.
-     */
-    public List<Track> getAllTracks() {
-        return tracks;
-    }
 }

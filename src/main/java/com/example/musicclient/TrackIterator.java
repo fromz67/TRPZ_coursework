@@ -9,6 +9,4 @@ public interface TrackIterator {
     boolean hasPrevious();
 
     Track previous();
-
-    Track current();
 }

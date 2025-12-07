@@ -18,6 +18,9 @@ public class Playlist {
 
     private final List<Track> tracks = new ArrayList<>();
 
+    // 🔹 Додай цей порожній конструктор для Jackson
+    public Playlist() {
+    }
 
     public Playlist(Long id, String name) {
         this.id = id;
@@ -61,10 +64,6 @@ public class Playlist {
     @JsonIgnore
     public TrackIterator getIterator() {
         return new PlaylistTrackIterator(tracks);
-    }
-
-    public void removeTrack(Track track) {
-        tracks.remove(track);
     }
 
     @Override
