@@ -18,7 +18,6 @@ public class Playlist {
 
     private final List<Track> tracks = new ArrayList<>();
 
-    // 🔹 Додай цей порожній конструктор для Jackson
     public Playlist() {
     }
 
