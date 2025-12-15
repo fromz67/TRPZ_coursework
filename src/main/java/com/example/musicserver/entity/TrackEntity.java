@@ -16,13 +16,14 @@ public class TrackEntity {
 
     private String album;
 
-
     @Column(name = "file_path")
     private String filePath;
 
+    // Порожній конструктор для JPA
     public TrackEntity() {
     }
 
+    // Конструктор для створення треку вручну
     public TrackEntity(String title, String artist, String album, String filePath) {
         this.title = title;
         this.artist = artist;
@@ -30,6 +31,7 @@ public class TrackEntity {
         this.filePath = filePath;
     }
 
+    // Геттери та сеттери
     public Long getId() {
         return id;
     }

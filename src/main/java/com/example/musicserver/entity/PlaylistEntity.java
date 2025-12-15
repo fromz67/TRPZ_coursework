@@ -27,15 +27,17 @@ public class PlaylistEntity {
     )
     private List<TrackEntity> tracks = new ArrayList<>();
 
-
+    // Порожній конструктор для JPA
     public PlaylistEntity() {
     }
 
+    // Конструктор для створення плейлиста з назвою
     public PlaylistEntity(String name) {
         this.name = name;
         this.createdAt = LocalDateTime.now();
     }
 
+    // Геттери
     public Long getId() {
         return id;
     }
@@ -52,6 +54,7 @@ public class PlaylistEntity {
         return tracks;
     }
 
+    // Сеттери
     public void setId(Long id) {
         this.id = id;
     }

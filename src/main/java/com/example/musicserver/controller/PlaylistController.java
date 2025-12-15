@@ -31,4 +31,3 @@ public class PlaylistController {
         playlistService.deletePlaylist(id);
     }
 }
-

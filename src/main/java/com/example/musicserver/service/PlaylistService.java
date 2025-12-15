@@ -4,6 +4,7 @@ import com.example.musicserver.entity.PlaylistEntity;
 import com.example.musicserver.repository.PlaylistRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -22,7 +23,6 @@ public class PlaylistService {
     public PlaylistEntity save(PlaylistEntity playlist) {
         return playlistRepository.save(playlist);
     }
-
 
     @Transactional
     public void deletePlaylist(Long id) {
