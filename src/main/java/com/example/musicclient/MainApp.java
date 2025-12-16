@@ -10,7 +10,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
         MainView mainView = new MainView();
 
-        Scene scene = new Scene(mainView.getRoot(), 900, 600);
+        Scene scene = new Scene(mainView.getRoot(), 1440, 900);
         primaryStage.setTitle("Music Player");
         primaryStage.setScene(scene);
         primaryStage.show();
